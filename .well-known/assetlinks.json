@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.op27no2.f5radar",
+      "sha256_cert_fingerprints": [
+        "FB:4A:54:A7:E4:0A:3E:3E:EC:64:33:F0:72:D9:D5:ED:E2:F7:7E:8F:D0:01:3C:72:18:5C:BA:96:5E:24:1C:61"
+      ]
+    }
+  }
+]

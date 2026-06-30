@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>F5 Radar — Radar Moment</title>
+
+  <!-- Open Graph / Twitter card for the Reddit/Discord/iMessage preview.
+       NOTE: GitHub Pages is static, so these are GENERIC for every link
+       (a crawler can't see the per-link query params). For a per-moment
+       preview card you'd render this server-side (e.g. on Hetzner). The
+       page itself personalizes via JS below for people who click. -->
+  <meta property="og:title" content="F5 Radar — Historic NEXRAD radar loop" />
+  <meta property="og:description" content="Open this exact radar moment in F5 Radar — reproducible Level II NEXRAD, frame by frame." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://op27no2.github.io/f5r/og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
+      font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #15351f 0%, #0b0f0c 55%, #070908 100%);
+      color: #e7efe9;
+    }
+    .card {
+      width: 100%; max-width: 460px; background: #12191400; text-align: center;
+    }
+    .badge {
+      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .14em;
+      color: #8fe0a8; border: 1px solid #2f5a3d; border-radius: 999px;
+      padding: 5px 12px; text-transform: uppercase; margin-bottom: 22px;
+    }
+    h1 { font-size: 26px; line-height: 1.2; margin: 0 0 6px; }
+    .sub { font-size: 15px; color: #9fb3a6; margin: 0 0 4px; }
+    .meta { font-size: 13px; color: #7f968a; margin: 2px 0; }
+    .btns { margin-top: 28px; display: grid; gap: 12px; }
+    a.btn {
+      display: block; text-decoration: none; padding: 14px 18px; border-radius: 14px;
+      font-size: 16px; font-weight: 700;
+    }
+    a.primary { background: #2e7d4f; color: #fff; }
+    a.ghost { background: #161e19; color: #cfe0d5; border: 1px solid #2a3a30; }
+    .foot { margin-top: 26px; font-size: 12px; color: #5f7468; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge" id="badge">F5 Radar</div>
+    <h1 id="title">A radar moment</h1>
+    <p class="sub" id="sub"></p>
+    <p class="meta" id="meta"></p>
+
+    <div class="btns">
+      <a class="btn primary" id="open" href="#">Open in F5 Radar</a>
+      <a class="btn ghost" id="get"
+         href="https://play.google.com/store/apps/details?id=com.op27no2.f5radar">Get the app</a>
+    </div>
+
+    <p class="foot">
+      F5 Radar replays real NEXRAD Level II radar — historic loops are
+      reproducible frame-for-frame from the public archive.
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var e = q.get('e'), s = q.get('s'), p = q.get('p'), t = q.get('t'), m = q.get('m');
+
+      var products = {
+        ref: 'Reflectivity', vel: 'Velocity', zdr: 'Differential Reflectivity',
+        cc: 'Correlation Coefficient', kdp: 'Specific Differential Phase',
+        srm: 'Storm-Relative Velocity', hca: 'Hydrometeor Classification',
+        eet: 'Echo Tops', vil: 'Vertically Integrated Liquid'
+      };
+      var modes = { '2d': '2D', '3d': '3D cone', 'vol': 'Volumetric' };
+
+      function prettyEvent(id) {
+        if (!id) return null;
+        var clean = id.replace(/^[a-z]+:/, '');                 // strip "derecho:" etc
+        var mDate = clean.match(/^(\d{4})-(\d{2})-(\d{2})-(.*)$/);
+        if (mDate) {
+          var loc = mDate[4].replace(/-/g, ' ')
+            .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+          return loc + ' · ' + mDate[1] + '-' + mDate[2] + '-' + mDate[3];
+        }
+        return clean.replace(/-/g, ' ');
+      }
+
+      var badge = document.getElementById('badge');
+      var title = document.getElementById('title');
+      var sub = document.getElementById('sub');
+      var meta = document.getElementById('meta');
+
+      if (e) {
+        badge.textContent = 'Historic radar';
+        title.textContent = prettyEvent(e) || 'Historic radar';
+      } else if (s) {
+        badge.textContent = 'Live radar';
+        title.textContent = s + ' radar';
+      }
+
+      var bits = [];
+      if (p && products[p]) bits.push(products[p]);
+      if (m && modes[m]) bits.push(modes[m]);
+      sub.textContent = bits.join('  ·  ');
+
+      if (t) {
+        var d = new Date(parseInt(t, 10));
+        if (!isNaN(d.getTime())) {
+          meta.textContent = d.toLocaleString(undefined, {
+            dateStyle: 'medium', timeStyle: 'short'
+          });
+        }
+      }
+
+      // "Open in F5 Radar" → the custom-scheme form of THIS link, so people
+      // who have the app (but where App Link verification hasn't kicked in)
+      // can still jump straight in. Same params, just the f5radar:// scheme.
+      document.getElementById('open').href = 'f5radar://r' + (location.search || '');
+    })();
+  </script>
+</body>
+</html>
