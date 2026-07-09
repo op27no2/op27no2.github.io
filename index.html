@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>F5 Radar — Live &amp; historic NEXRAD radar</title>
+  <meta name="description" content="F5 Radar replays real NEXRAD Level II weather radar — live from every US site and decades of archive, in 2D, 3D, and volumetric. Soundings, velocity, lightning, and a curated catalog of historic storms." />
+  <link rel="canonical" href="https://f5radar.app/" />
+  <meta name="theme-color" content="#0b0f0c" />
+
+  <!-- Social preview. Drop a 1200x630 og-preview.png at the site root to
+       populate the card; until then links just show title + description. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://f5radar.app/" />
+  <meta property="og:title" content="F5 Radar — Live &amp; historic NEXRAD radar" />
+  <meta property="og:description" content="Real NEXRAD Level II radar in 2D, 3D, and volumetric — live and decades deep." />
+  <meta property="og:image" content="https://f5radar.app/og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Inline SVG favicon: a small radar blip. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23081610'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%232f5a3d' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%232f5a3d' stroke-width='1.5'/%3E%3Cpath d='M16 16 L16 2 A14 14 0 0 1 27 9 Z' fill='%238fe0a8' opacity='.55'/%3E%3C/svg%3E" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg0: #070908; --ink: #e7efe9; --muted: #9fb3a6; --dim: #7f968a;
+      --faint: #5f7468; --green: #2e7d4f; --bright: #8fe0a8;
+      --line: #223029; --line2: #2f5a3d; --card: rgba(20,27,23,.55);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--ink);
+      font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 50% -10%, #15351f 0%, #0b0f0c 55%, #070908 100%),
+        var(--bg0);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    .wrap { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    header.hero { text-align: center; padding: 72px 0 40px; }
+    .scope {
+      width: 220px; height: 220px; margin: 0 auto 30px; position: relative;
+      border-radius: 50%; overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #0d2417 0%, #08160e 72%, #061009 100%);
+      border: 1px solid var(--line2);
+      box-shadow: 0 0 60px rgba(46,125,79,.18), inset 0 0 40px rgba(0,0,0,.5);
+    }
+    .scope .sweep {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: conic-gradient(from 0deg,
+        rgba(143,224,168,0) 0deg, rgba(143,224,168,0) 290deg,
+        rgba(143,224,168,.10) 330deg, rgba(143,224,168,.45) 358deg,
+        rgba(143,224,168,.65) 360deg);
+      animation: spin 4.5s linear infinite;
+    }
+    .scope svg { position: absolute; inset: 0; }
+    .scope .blip { fill: var(--bright); opacity: 0; animation: blip 4.5s linear infinite; }
+    .scope .b1 { animation-delay: 1.1s; }
+    .scope .b2 { animation-delay: 2.7s; }
+    .scope .b3 { animation-delay: 3.6s; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes blip {
+      0%, 6% { opacity: .9; } 40% { opacity: 0; } 100% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scope .sweep { animation: none; }
+      .scope .blip { animation: none; opacity: .5; }
+    }
+
+    .kicker {
+      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .16em;
+      color: var(--bright); border: 1px solid var(--line2); border-radius: 999px;
+      padding: 5px 13px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    h1 { font-size: clamp(34px, 7vw, 56px); line-height: 1.04; margin: 0 0 16px; letter-spacing: -.02em; }
+    h1 .accent { color: var(--bright); }
+    .lede { font-size: clamp(16px, 2.4vw, 20px); color: var(--muted); max-width: 620px; margin: 0 auto; }
+
+    .cta { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    a.store {
+      display: inline-flex; align-items: center; gap: 12px; text-decoration: none;
+      background: #10171200; border: 1px solid var(--line2); color: var(--ink);
+      padding: 12px 20px; border-radius: 14px; transition: border-color .15s, background .15s;
+    }
+    a.store:hover { border-color: var(--bright); background: rgba(46,125,79,.12); }
+    a.store svg { flex: none; }
+    a.store .st { text-align: left; line-height: 1.15; }
+    a.store .st small { display: block; font-size: 11px; letter-spacing: .08em; color: var(--dim); text-transform: uppercase; }
+    a.store .st b { font-size: 17px; font-weight: 700; }
+
+    /* ── Sections ───────────────────────────────────────────── */
+    section { padding: 30px 0; }
+    .eyebrow { text-align: center; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); margin: 0 0 6px; }
+    h2 { text-align: center; font-size: clamp(24px, 4vw, 32px); margin: 0 0 34px; letter-spacing: -.01em; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .feat {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 22px; backdrop-filter: blur(2px);
+    }
+    .feat .ic { width: 34px; height: 34px; margin-bottom: 14px; color: var(--bright); }
+    .feat h3 { margin: 0 0 7px; font-size: 17px; }
+    .feat p { margin: 0; font-size: 14.5px; color: var(--dim); }
+
+    /* ── Products strip ─────────────────────────────────────── */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; max-width: 720px; margin: 0 auto; }
+    .chip {
+      font-size: 13px; color: var(--muted); border: 1px solid var(--line);
+      background: rgba(20,27,23,.4); border-radius: 999px; padding: 7px 14px;
+    }
+    .chip b { color: var(--bright); font-weight: 700; margin-right: 6px; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 0 50px; }
+    .frow { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; align-items: center; }
+    footer a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    footer a:hover { color: var(--bright); }
+    footer .copy { text-align: center; color: var(--faint); font-size: 12.5px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="scope" aria-hidden="true">
+        <div class="sweep"></div>
+        <svg viewBox="0 0 220 220" fill="none">
+          <g stroke="#2f5a3d" stroke-width="1">
+            <circle cx="110" cy="110" r="86" opacity=".55"/>
+            <circle cx="110" cy="110" r="58" opacity=".45"/>
+            <circle cx="110" cy="110" r="30" opacity=".4"/>
+            <line x1="110" y1="24" x2="110" y2="196" opacity=".3"/>
+            <line x1="24" y1="110" x2="196" y2="110" opacity=".3"/>
+          </g>
+          <circle class="blip b1" cx="150" cy="78" r="4"/>
+          <circle class="blip b2" cx="78" cy="140" r="3.4"/>
+          <circle class="blip b3" cx="132" cy="150" r="3"/>
+        </svg>
+      </div>
+
+      <div class="kicker">NEXRAD · Level II</div>
+      <h1>The radar app for<br><span class="accent">people who love storms</span></h1>
+      <p class="lede">
+        F5 Radar replays real NEXRAD radar — live from every US site and decades
+        of archive — in 2D, 3D, and full volumetric. Not a tile overlay. The
+        actual radar data, frame by frame.
+      </p>
+
+      <div class="cta">
+        <!-- On publish: swap href to the live listing and the label to "Get it on". -->
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.op27no2.f5radar">
+          <svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true">
+            <path d="M1 2.2v23.6c0 .9.98 1.47 1.75 1.02l20.6-11.8c.78-.45.78-1.6 0-2.04L2.75 1.18C1.98.73 1 1.3 1 2.2Z" fill="#8fe0a8" opacity=".9"/>
+          </svg>
+          <span class="st"><small>Coming soon to</small><b>Google Play</b></span>
+        </a>
+      </div>
+    </header>
+
+    <section>
+      <p class="eyebrow">What it does</p>
+      <h2>Radar, the way it actually works</h2>
+      <div class="grid">
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 12V3M12 12l7 4"/></svg>
+          <h3>Live, everywhere, fast</h3>
+          <p>Every US NEXRAD site, streaming the latest volume in about a second — no waiting on a tile server to catch up.</p>
+        </div>
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 5v4h4"/><path d="M12 8v4l3 2"/></svg>
+          <h3>Decades of archive</h3>
+          <p>Replay any storm from the public Level II archive, frame for frame — reproducible exactly, from tornado outbreaks to landfalling hurricanes.</p>
+        </div>
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <h3>2D · 3D · Volumetric</h3>
+          <p>Flatten it to a classic sweep, tilt through the cone, or render the whole storm as a volume you can orbit.</p>
+        </div>
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 15c3 0 3-8 6-8s3 8 6 8 3-4 6-4"/><path d="M3 20h18"/></svg>
+          <h3>Storm science built in</h3>
+          <p>Model soundings and hodographs, velocity dealiasing and storm-relative motion, and a live GOES lightning overlay synced to the loop.</p>
+        </div>
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>
+          <h3>The great storms, curated</h3>
+          <p>Landfalling hurricanes, violent tornadoes, and derechos — each with the radar loop pinned to the right site and moment. One tap to the radar.</p>
+        </div>
+        <div class="feat">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+          <h3>Share the moment</h3>
+          <p>Send a link to an exact radar moment. Anyone who taps it lands on the same loop, same frame — in the app, or here in the browser.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Products</p>
+      <h2>Every dual-pol product, decoded on device</h2>
+      <div class="chips">
+        <span class="chip"><b>REF</b>Reflectivity</span>
+        <span class="chip"><b>VEL</b>Velocity</span>
+        <span class="chip"><b>SRM</b>Storm-relative</span>
+        <span class="chip"><b>ZDR</b>Differential reflectivity</span>
+        <span class="chip"><b>CC</b>Correlation coefficient</span>
+        <span class="chip"><b>KDP</b>Specific differential phase</span>
+        <span class="chip"><b>HCA</b>Hydrometeor class</span>
+        <span class="chip"><b>EET</b>Echo tops</span>
+        <span class="chip"><b>VIL</b>Integrated liquid</span>
+      </div>
+    </section>
+
+    <footer>
+      <div class="frow">
+        <a href="/F5RadarPrivacyPolicy/privacy.html">Privacy</a>
+        <a href="/F5RadarPrivacyPolicy/terms.html">Terms</a>
+        <a href="mailto:support@f5radar.app">support@f5radar.app</a>
+      </div>
+      <p class="copy">© 2026 F5 Radar · Radar data courtesy of NOAA / National Weather Service</p>
+    </footer>
+
+  </div>
+</body>
+</html>
