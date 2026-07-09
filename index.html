@@ -6,7 +6,7 @@
   <title>F5 Radar — Live &amp; historic NEXRAD radar in 3D</title>
   <meta name="description" content="F5 Radar renders real NEXRAD Level II weather radar in true 3D — every elevation cut as a textured cone, or the whole storm as a volume you can orbit. Live from every US site plus decades of archive." />
   <link rel="canonical" href="https://f5radar.app/" />
-  <meta name="theme-color" content="#0b0f0c" />
+  <meta name="theme-color" content="#070908" />
 
   <!-- Social preview. Drop a 1200x630 og-preview.png at the site root to
        populate the card; until then links just show title + description. -->
@@ -30,69 +30,64 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0; color: var(--ink);
+      margin: 0; color: var(--ink); background: var(--bg0);
       font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
-      background:
-        radial-gradient(1200px 600px at 50% -10%, #15351f 0%, #0b0f0c 55%, #070908 100%),
-        var(--bg0);
-      background-attachment: fixed;
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
     }
     .wrap { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 22px; }
 
-    /* ── Hero ───────────────────────────────────────────────── */
-    header.hero { text-align: center; padding: 72px 0 40px; }
-    .scope {
-      width: 220px; height: 220px; margin: 0 auto 30px; position: relative;
-      border-radius: 50%; overflow: hidden;
-      background: radial-gradient(circle at 50% 50%, #0d2417 0%, #08160e 72%, #061009 100%);
-      border: 1px solid var(--line2);
-      box-shadow: 0 0 60px rgba(46,125,79,.18), inset 0 0 40px rgba(0,0,0,.5);
+    /* ── Hero (real radar underlay: 2013 El Reno on KTLX) ───── */
+    header.hero {
+      position: relative; text-align: center; padding: 104px 22px 92px;
+      background:
+        linear-gradient(180deg, rgba(6,8,7,.72) 0%, rgba(6,8,7,.46) 40%, rgba(7,9,8,.80) 78%, var(--bg0) 100%),
+        #0a0f0c url('hero-elreno.jpg') 50% 30% / cover no-repeat;
+      border-bottom: 1px solid var(--line);
     }
-    .scope .sweep {
-      position: absolute; inset: 0; border-radius: 50%;
-      background: conic-gradient(from 0deg,
-        rgba(143,224,168,0) 0deg, rgba(143,224,168,0) 290deg,
-        rgba(143,224,168,.10) 330deg, rgba(143,224,168,.45) 358deg,
-        rgba(143,224,168,.65) 360deg);
-      animation: spin 4.5s linear infinite;
-    }
-    .scope svg { position: absolute; inset: 0; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
 
     .kicker {
       display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .16em;
       color: var(--bright); border: 1px solid var(--line2); border-radius: 999px;
       padding: 5px 13px; text-transform: uppercase; margin-bottom: 20px;
+      background: rgba(7,9,8,.45);
     }
-    h1 { font-size: clamp(34px, 7vw, 56px); line-height: 1.04; margin: 0 0 16px; letter-spacing: -.02em; }
+    h1 {
+      font-size: clamp(34px, 7vw, 56px); line-height: 1.04; margin: 0 0 16px;
+      letter-spacing: -.02em; text-shadow: 0 2px 22px rgba(0,0,0,.6), 0 1px 4px rgba(0,0,0,.55);
+    }
     h1 .accent { color: var(--bright); }
-    .lede { font-size: clamp(16px, 2.4vw, 20px); color: var(--muted); max-width: 640px; margin: 0 auto; }
+    .lede {
+      font-size: clamp(16px, 2.4vw, 20px); color: #cfe0d5; max-width: 640px; margin: 0 auto;
+      text-shadow: 0 1px 12px rgba(0,0,0,.7);
+    }
 
     .cta { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
     a.store {
       display: inline-flex; align-items: center; gap: 12px; text-decoration: none;
-      background: #10171200; border: 1px solid var(--line2); color: var(--ink);
+      background: rgba(9,13,11,.6); border: 1px solid var(--line2); color: var(--ink);
       padding: 12px 20px; border-radius: 14px; transition: border-color .15s, background .15s;
+      backdrop-filter: blur(3px);
     }
-    a.store:hover { border-color: var(--bright); background: rgba(46,125,79,.12); }
+    a.store:hover { border-color: var(--bright); background: rgba(46,125,79,.2); }
     a.store svg { flex: none; }
     a.store .st { text-align: left; line-height: 1.15; }
     a.store .st small { display: block; font-size: 11px; letter-spacing: .08em; color: var(--dim); text-transform: uppercase; }
     a.store .st b { font-size: 17px; font-weight: 700; }
 
+    .hero-credit {
+      margin: 26px 0 0; font-size: 11.5px; letter-spacing: .04em; color: #7f968a;
+      text-shadow: 0 1px 8px rgba(0,0,0,.8);
+    }
+
     /* ── 3D spotlight ───────────────────────────────────────── */
     .spotlight {
       display: grid; grid-template-columns: 1.05fr 1fr; gap: 34px; align-items: center;
-      padding: 46px 0; margin-top: 10px;
+      padding: 54px 0 46px;
     }
-    .sp-media {
-      display: flex; justify-content: center;
-      filter: drop-shadow(0 0 46px rgba(46,125,79,.22));
-    }
-    .cones { width: 100%; max-width: 340px; animation: bob 7s ease-in-out infinite; }
-    @keyframes bob { 0%,100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+    .sp-media { display: flex; justify-content: center; filter: drop-shadow(0 0 46px rgba(46,125,79,.22)); }
+    .cones { width: 100%; max-width: 340px; }
     .sp-copy h2 { text-align: left; margin: 8px 0 14px; }
     .sp-copy p { color: var(--dim); font-size: 15.5px; margin: 0 0 18px; }
     .ticks { list-style: none; margin: 0; padding: 0; }
@@ -111,8 +106,7 @@
 
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
     .feat {
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-      padding: 22px; backdrop-filter: blur(2px);
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px;
     }
     .feat .ic { width: 34px; height: 34px; margin-bottom: 14px; color: var(--bright); }
     .feat h3 { margin: 0 0 7px; font-size: 17px; }
@@ -139,45 +133,12 @@
       .ticks { display: inline-block; text-align: left; }
       .cones { max-width: 280px; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .scope .sweep, .cones { animation: none; }
-    }
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <header class="hero">
-      <div class="scope" aria-hidden="true">
-        <div class="sweep"></div>
-        <svg viewBox="0 0 220 220" fill="none">
-          <defs>
-            <radialGradient id="echo" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#e2fbea" stop-opacity=".95"/>
-              <stop offset="34%" stop-color="#8fe0a8" stop-opacity=".82"/>
-              <stop offset="68%" stop-color="#2e7d4f" stop-opacity=".5"/>
-              <stop offset="100%" stop-color="#2e7d4f" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="3.2"/>
-            </filter>
-          </defs>
-          <!-- storm echoes (a cell cluster the sweep circles over) -->
-          <g filter="url(#soft)">
-            <ellipse cx="96" cy="126" rx="27" ry="21" fill="url(#echo)"/>
-            <ellipse cx="122" cy="150" rx="15" ry="12" fill="url(#echo)"/>
-            <ellipse cx="150" cy="86" rx="12" ry="15" fill="url(#echo)"/>
-          </g>
-          <g stroke="#2f5a3d" stroke-width="1">
-            <circle cx="110" cy="110" r="86" opacity=".5"/>
-            <circle cx="110" cy="110" r="58" opacity=".4"/>
-            <circle cx="110" cy="110" r="30" opacity=".35"/>
-            <line x1="110" y1="24" x2="110" y2="196" opacity=".28"/>
-            <line x1="24" y1="110" x2="196" y2="110" opacity=".28"/>
-          </g>
-        </svg>
-      </div>
-
+  <header class="hero">
+    <div class="hero-inner">
       <div class="kicker">NEXRAD · Level II · 3D</div>
       <h1>Storms are 3D.<br><span class="accent">Your radar should be too.</span></h1>
       <p class="lede">
@@ -195,7 +156,12 @@
           <span class="st"><small>Coming soon to</small><b>Google Play</b></span>
         </a>
       </div>
-    </header>
+
+      <p class="hero-credit">Radar: KTLX reflectivity · El Reno – Oklahoma City · May 31, 2013</p>
+    </div>
+  </header>
+
+  <div class="wrap">
 
     <section class="spotlight">
       <div class="sp-media">
