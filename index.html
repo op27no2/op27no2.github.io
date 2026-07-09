@@ -123,6 +123,31 @@
     }
     .chip b { color: var(--bright); font-weight: 700; margin-right: 6px; }
 
+    /* ── Pro tag + Free/Pro tiers ───────────────────────────── */
+    .pro {
+      display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .1em;
+      color: #08120b; background: var(--bright); border-radius: 5px;
+      padding: 2px 7px; margin-left: 8px; vertical-align: middle;
+    }
+    .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 780px; margin: 0 auto; }
+    .tier {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+    }
+    .tier.is-pro { border-color: var(--line2); box-shadow: 0 0 40px rgba(46,125,79,.12); }
+    .tier h3 { margin: 0 0 4px; font-size: 20px; }
+    .tier.is-pro h3 { color: var(--bright); }
+    .tier .price { margin: 0 0 14px; font-size: 13px; color: var(--dim); }
+    .tier ul { list-style: none; margin: 0; padding: 0; }
+    .tier li {
+      position: relative; padding: 9px 0 9px 26px; font-size: 14.5px; color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+    .tier li:first-child { border-top: none; }
+    .tier li::before {
+      content: ""; position: absolute; left: 2px; top: 16px; width: 10px; height: 5px;
+      border-left: 2px solid var(--bright); border-bottom: 2px solid var(--bright); transform: rotate(-45deg);
+    }
+
     /* ── Footer ─────────────────────────────────────────────── */
     footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 0 50px; }
     .frow { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; align-items: center; }
@@ -136,6 +161,7 @@
       .ticks { display: inline-block; text-align: left; }
       .shot { max-width: 300px; }
     }
+    @media (max-width: 620px) { .tiers { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -172,7 +198,7 @@
              alt="The El Reno supercell rendered in 3D — reflectivity cells towering as a volume over the Oklahoma map" />
       </div>
       <div class="sp-copy">
-        <p class="eyebrow">The 3D difference</p>
+        <p class="eyebrow">The 3D difference <span class="pro">Pro</span></p>
         <h2>See the storm, not a slice</h2>
         <p>
           Most radar apps flatten a storm to a single tilt painted on a map.
@@ -239,6 +265,33 @@
         <span class="chip"><b>HCA</b>Hydrometeor class</span>
         <span class="chip"><b>EET</b>Echo tops</span>
         <span class="chip"><b>VIL</b>Integrated liquid</span>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Pricing</p>
+      <h2>Free to start, Pro when you want more</h2>
+      <div class="tiers">
+        <div class="tier">
+          <h3>Free</h3>
+          <p class="price">No account, no catch</p>
+          <ul>
+            <li>Live 2D radar for every US NEXRAD site</li>
+            <li>NWS tornado &amp; severe-warning alerts</li>
+            <li>A curated set of featured storms</li>
+            <li>Share any radar moment as a link</li>
+          </ul>
+        </div>
+        <div class="tier is-pro">
+          <h3>Pro</h3>
+          <p class="price">Everything in Free, plus</p>
+          <ul>
+            <li>3D &amp; volumetric rendering, anywhere</li>
+            <li>The full historic Level II archive — any date</li>
+            <li>Storm library, compare &amp; damage-survey tools</li>
+            <li>Historic controls: shift, jump &amp; swap radar sites</li>
+          </ul>
+        </div>
       </div>
     </section>
 
