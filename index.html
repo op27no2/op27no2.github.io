@@ -42,7 +42,7 @@
       position: relative; text-align: center; padding: 104px 22px 92px;
       background:
         linear-gradient(180deg, rgba(6,8,7,.72) 0%, rgba(6,8,7,.46) 40%, rgba(7,9,8,.80) 78%, var(--bg0) 100%),
-        #0a0f0c url('hero-elreno.jpg') 50% 48% / cover no-repeat;
+        #0a0f0c url('hero-elreno.jpg') 50% 62% / cover no-repeat;
       border-bottom: 1px solid var(--line);
     }
     .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
@@ -86,8 +86,11 @@
       display: grid; grid-template-columns: 1.05fr 1fr; gap: 34px; align-items: center;
       padding: 54px 0 46px;
     }
-    .sp-media { display: flex; justify-content: center; filter: drop-shadow(0 0 46px rgba(46,125,79,.22)); }
-    .cones { width: 100%; max-width: 340px; }
+    .sp-media { display: flex; justify-content: center; }
+    .shot {
+      width: 100%; max-width: 360px; height: auto; border-radius: 16px;
+      border: 1px solid var(--line2); box-shadow: 0 22px 55px rgba(0,0,0,.55);
+    }
     .sp-copy h2 { text-align: left; margin: 8px 0 14px; }
     .sp-copy p { color: var(--dim); font-size: 15.5px; margin: 0 0 18px; }
     .ticks { list-style: none; margin: 0; padding: 0; }
@@ -131,7 +134,7 @@
       .spotlight { grid-template-columns: 1fr; gap: 8px; text-align: center; }
       .sp-copy h2 { text-align: center; }
       .ticks { display: inline-block; text-align: left; }
-      .cones { max-width: 280px; }
+      .shot { max-width: 300px; }
     }
   </style>
 </head>
@@ -165,22 +168,8 @@
 
     <section class="spotlight">
       <div class="sp-media">
-        <svg class="cones" viewBox="0 0 320 280" fill="none" aria-hidden="true">
-          <line x1="160" y1="242" x2="160" y2="58" stroke="#2f5a3d" stroke-width="1" opacity=".4"/>
-          <g stroke="#2f5a3d" stroke-width="1" opacity=".33">
-            <line x1="160" y1="242" x2="44" y2="196"/>
-            <line x1="160" y1="242" x2="276" y2="196"/>
-            <line x1="160" y1="242" x2="66" y2="160"/>
-            <line x1="160" y1="242" x2="254" y2="160"/>
-          </g>
-          <ellipse cx="160" cy="196" rx="116" ry="31" fill="#2e7d4f" fill-opacity=".10" stroke="#8fe0a8" stroke-opacity=".42" stroke-width="1.4"/>
-          <ellipse cx="160" cy="160" rx="94"  ry="25" fill="#2e7d4f" fill-opacity=".13" stroke="#8fe0a8" stroke-opacity=".52" stroke-width="1.4"/>
-          <ellipse cx="160" cy="126" rx="71"  ry="19" fill="#2e7d4f" fill-opacity=".16" stroke="#8fe0a8" stroke-opacity=".64" stroke-width="1.4"/>
-          <ellipse cx="160" cy="94"  rx="47"  ry="13" fill="#2e7d4f" fill-opacity=".20" stroke="#8fe0a8" stroke-opacity=".76" stroke-width="1.4"/>
-          <ellipse cx="160" cy="66"  rx="25"  ry="8"  fill="#2e7d4f" fill-opacity=".26" stroke="#bff0cf" stroke-opacity=".88" stroke-width="1.4"/>
-          <circle cx="160" cy="242" r="4" fill="#bff0cf"/>
-          <circle cx="160" cy="242" r="9" fill="none" stroke="#8fe0a8" stroke-opacity=".4"/>
-        </svg>
+        <img class="shot" src="spotlight-3d.jpg" width="900" height="1025"
+             alt="The El Reno supercell rendered in 3D — reflectivity cells towering as a volume over the Oklahoma map" />
       </div>
       <div class="sp-copy">
         <p class="eyebrow">The 3D difference</p>
