@@ -5,6 +5,8 @@
       "namespace": "android_app",
       "package_name": "com.op27no2.f5radar",
       "sha256_cert_fingerprints": [
+        "96:52:0C:D9:3D:83:9C:3B:C4:FD:EC:A3:69:67:9C:69:55:F9:F6:62:66:08:63:9E:59:C7:CB:DD:71:B1:50:79",
+        "40:3C:82:8A:DA:81:85:8E:3C:52:79:EF:F6:B2:C3:75:EE:B9:64:8A:C5:3D:0F:69:CD:39:71:D8:DF:15:47:AC",
         "FB:4A:54:A7:E4:0A:3E:3E:EC:64:33:F0:72:D9:D5:ED:E2:F7:7E:8F:D0:01:3C:72:18:5C:BA:96:5E:24:1C:61"
       ]
     }
